@@ -5,6 +5,7 @@ import json
 import logging
 import requests
 import configparser
+from operator import itemgetter
 from mohawk import Sender
 from datetime import datetime, date
 from dateutil import parser, tz, relativedelta
@@ -84,7 +85,7 @@ def get_timespans_from(start):
     }
     response = query_absence_api('/timespans', data)
     timespans = response.json()['data']
-    return timespans
+    return sorted(timespans, key=itemgetter('start'))
 
 
 def sum_total_working_hours_and_minutes_from(timespans):
